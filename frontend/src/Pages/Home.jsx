@@ -22,7 +22,6 @@ const Home = () => {
                     <span style={{color:"#07f"}}>Already have an Invite? </span>
                     <Link style={{color:"#07f",fontWeight:"bold",textDecoration:"none"}} to="/login"> Sign In </Link>
                 </div>
-
             </Card>
         </div>
     )
