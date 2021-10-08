@@ -1,17 +1,18 @@
 import React, { useState } from 'react'
-import Otp from './Register_Steps/Otp';
-import PhoneEmail from './Register_Steps/PhoneEmail';
+import Styles from './Activate.module.css';
+import Avatar from './Register_Steps/Avatar';
+import Name from './Register_Steps/Name';
 
 const StepComp = {
-    1: PhoneEmail,
-    2: Otp,
+    1: Name,
+    2: Avatar,
 };
 
+const Activate = () => {
 
-const Login = () => {
     const [stepNum, setStepNum] = useState(1);
     const CurrComp = StepComp[stepNum];
-
+    
     const nextStep = () => {
         console.log("next clicked");
         setStepNum(stepNum + 1);
@@ -23,4 +24,5 @@ const Login = () => {
         </div>
     )
 }
-export default Login
+
+export default Activate

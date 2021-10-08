@@ -1,0 +1,16 @@
+POST http://localhost:5000/api/auth/send-otp HTTP/1.1
+Content-Type: application/json 
+
+{ 
+    "phoneNo": "+9112345565467"
+}
+
+###
+POST http://localhost:5000/api/auth/verify-otp HTTP/1.1
+Content-Type: application/json 
+
+{ 
+    "phoneNo": "+9112345565467",
+    "hash": "4687f669acef145bf2808e949d9f68301bcf1aa315b3b05a6e8fab2311bab725_1633710501798",
+    "OTP": "9688"
+}
