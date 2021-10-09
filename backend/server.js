@@ -6,9 +6,10 @@ const router = require('./routes/AuthRoute');
 const cors = require('cors');
 
 const corsOption = {
+    credentials: true,
     origin: ['http://localhost:3000'],
 };
-app.use(cors(corsOption)); 
+app.use(cors(corsOption));
 
 const PORT = process.env.PORT || 5500;
 
@@ -17,7 +18,7 @@ DBConnect();
 app.use(express.json());
 app.use(router);
 
-app.get('/',(req,res)=>{
+app.get('/', (req, res) => {
     res.send("Hello from Server");
 })
 
