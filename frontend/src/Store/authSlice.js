@@ -33,7 +33,10 @@ export const authSlice = createSlice({
         setAuth: (state, action) => {
             const { user } = action.payload;
             state.user = user;
-            state.isAuth = true;
+            if (user)
+                state.isAuth = true;
+            else
+                state.isAuth = false;
         },
         setOtp: (state, action) => {
             // console.log("inside set OTP auth slice");

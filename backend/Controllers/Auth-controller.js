@@ -135,7 +135,7 @@ class AuthController {
         }
 
         // token is in db or not
-        try{
+        try {
             const token = await TokenService.findRefreshToken(userData.id, refreshTokenFromCookie);
             if (!token) {
                 return res.status(401).json({ msg: 'findRefreshToken fails ,invalid Token' });
@@ -178,6 +178,19 @@ class AuthController {
         // res send
         const userDto = new UserDto(user);
         res.json({ user: userDto, auth: true });
+    }
+
+    async logout(req, res) {
+
+        //delete refresh token from db
+        const { refreshToken } = req.cookies;
+        await TokenService.removeToken(refreshToken);
+
+        // delete cookies
+        res.clearCookie('refreshToken');
+        res.clearCookie('accessToken');
+
+        res.json({ user: null, auth: false });
     }
 }
 

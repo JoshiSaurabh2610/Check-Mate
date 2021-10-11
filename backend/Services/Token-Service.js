@@ -36,6 +36,10 @@ class TokenService {
         return await refreshTokenModel.updateOne({ userId: userId }, { refreshToken: refreshToken });
     }
 
+    async removeToken(token){
+        return await refreshTokenModel.deleteOne({token});
+    }
+
 }
 
 module.exports = new TokenService();
