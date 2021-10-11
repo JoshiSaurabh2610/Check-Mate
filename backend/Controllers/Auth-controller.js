@@ -113,12 +113,71 @@ class AuthController {
             user.name = userName;
             user.avatar = `/storage/${imagePath}`;
             user.save();
-            res.json({ user: new UserDto(user),auth:true })
+            res.json({ user: new UserDto(user), auth: true })
         } catch (err) {
             console.log(err);
             res.status(500).json({ msg: 'Something went wrong DB ERROR' });
         }
 
+    }
+
+    async refresh(req, res) {
+        const { refreshToken: refreshTokenFromCookie } = req.cookies;
+        // check token is valid
+        let userData;
+        try {
+            userData = await TokenService.verifyRefreshToken(refreshTokenFromCookie);
+            // console.log(userData);
+            // console.log(userData.id);
+
+        } catch (err) {
+            return res.status(401).json({ msg: 'Verification is not done properly! invalid token' });
+        }
+
+        // token is in db or not
+        try{
+            const token = await TokenService.findRefreshToken(userData.id, refreshTokenFromCookie);
+            if (!token) {
+                return res.status(401).json({ msg: 'findRefreshToken fails ,invalid Token' });
+            }
+
+        } catch (err) {
+            console.log(err);
+            return res.status(500).json({ msg: 'internal server Error' });
+
+        }
+
+        // check if valid user
+        const user = await UserService.findUser({ _id: userData.id });
+        if (!user) {
+            return res.status(404).json({ msg: 'No  user' });
+        }
+
+        // generate new tokens
+        const { accessToken, refreshToken } = TokenService.generateTokens({ id: userData.id });
+
+        // update refresh token in db 
+        try {
+            await TokenService.updateRefreshToken(userData.id, refreshToken);
+        } catch (err) {
+            return res.status(500).json({ msg: 'internal server Error' });
+
+        }
+
+        // put tokens in cookie
+        res.cookie('refreshToken', refreshToken, {
+            maxAge: 1000 * 60 * 60 * 24 * 30,
+            httpOnly: true
+        });
+
+        res.cookie('accessToken', accessToken, {
+            maxAge: 1000 * 60 * 60 * 24 * 30,
+            httpOnly: true
+        });
+
+        // res send
+        const userDto = new UserDto(user);
+        res.json({ user: userDto, auth: true });
     }
 }
 

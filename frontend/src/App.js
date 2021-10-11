@@ -6,9 +6,14 @@ import Authenticate from './Pages/Authenticate';
 import Activate from './Pages/Activate';
 import Rooms from './Pages/Rooms';
 import {useSelector} from 'react-redux';
+import { useLoadingWithRefresh } from './hooks/useLoadingWithRefresh';
 
 function App() {
+  // auto loading custom hook
+  const {loading} = useLoadingWithRefresh();
+
   return (
+    loading ? 'loading......':
     <BrowserRouter>
       <Navigation />
       <Switch>
