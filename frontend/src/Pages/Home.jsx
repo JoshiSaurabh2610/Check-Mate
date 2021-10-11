@@ -1,6 +1,6 @@
 import React from 'react'
 import Style from './Home.module.css';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import Card from '../Components/Card';
 import Button from '../Components/Button';

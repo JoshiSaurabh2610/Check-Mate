@@ -12,7 +12,7 @@ const api = axios.create({
 
 /// list of all the end Points
 export const sendOtp = (data) => api.post('/api/auth/send-otp',data);
-
 export const verifyOtp = (data) => api.post('/api/auth/verify-otp',data);
+export const activateUser = (data) => api.post('/api/auth/activate',data);
 
 export default api;

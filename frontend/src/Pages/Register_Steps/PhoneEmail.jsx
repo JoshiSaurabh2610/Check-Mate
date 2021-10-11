@@ -27,7 +27,7 @@ const PhoneEmail = ({ nextStep }) => {
     }
 
     return (
-        <div className={styles.cardWrapper}>
+        <div className="cardWrapper">
             <div>
                 <div className={styles.buttonWrapper}>
                     <button className={`${styles.tabBtn} ${type === "Phone Number" ? styles.active : ''}`} onClick={() => { setType("Phone Number"); setValue('') }}>
@@ -42,7 +42,7 @@ const PhoneEmail = ({ nextStep }) => {
                     <div className={styles.btnWrap}>
                         <Button text="Next" onClick={submitHandler} />
                     </div>
-                    <p className={styles.bottomPara}>
+                    <p className="subHeading">
                         {`By entering Your ${type} you're agreeing to our Terms of Services and Privacy Policy. Thanks!`}
                     </p>
                 </Card>

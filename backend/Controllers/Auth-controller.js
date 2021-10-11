@@ -3,6 +3,8 @@ const OtpService = require("../Services/Otp-service");
 const UserService = require("../Services/User-Service");
 const TokenService = require("../Services/Token-Service");
 const UserDto = require("../dtos/user-dto");
+const Jimp = require('jimp');
+const path = require('path');
 
 class AuthController {
 
@@ -65,7 +67,7 @@ class AuthController {
             }
 
             //Token
-            const { acessToken, refreshToken } = TokenService.generateTokens({ id: user._id, activated: false });
+            const { accessToken, refreshToken } = TokenService.generateTokens({ id: user._id, activated: false });
 
             await TokenService.storeRefreshToken(refreshToken, user._id);
 
@@ -74,7 +76,7 @@ class AuthController {
                 httpOnly: true
             });
 
-            res.cookie('acessToken', acessToken, {
+            res.cookie('accessToken', accessToken, {
                 maxAge: 1000 * 60 * 60 * 24 * 30,
                 httpOnly: true
             });
@@ -83,6 +85,40 @@ class AuthController {
             res.json({ user: userDto, auth: true });
 
         }
+    }
+
+    async activateUser(req, res) {
+        const { userName, userAvatar } = req.body;
+        if (!userName || !userAvatar) {
+            res.status(400).json({ msg: "All Fields are Required" })
+        }
+        const buffer = Buffer.from(userAvatar.split(',')[1], 'base64');
+        let imagePath;
+        try {
+            const jimpRes = await Jimp.read(buffer);
+            imagePath = `${Date.now()}.${Math.round(Math.random() * 1e9)}.png`;
+            jimpRes.resize(150, Jimp.AUTO).write(path.resolve(__dirname, `../Storage/${imagePath}`));
+
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ msg: 'could not process the img' });
+        }
+        // update User to make it activated
+        try {
+            const user = await UserService.findUser({ _id: req.user.id })
+            if (!user) {
+                res.status(404).json({ msg: 'user not found' });
+            }
+            user.activated = true;
+            user.name = userName;
+            user.avatar = `/storage/${imagePath}`;
+            user.save();
+            res.json({ user: new UserDto(user),auth:true })
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ msg: 'Something went wrong DB ERROR' });
+        }
+
     }
 }
 

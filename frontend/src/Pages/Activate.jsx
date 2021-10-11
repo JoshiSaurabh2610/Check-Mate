@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Styles from './Activate.module.css';
 import Avatar from './Register_Steps/Avatar';
 import Name from './Register_Steps/Name';
 
@@ -20,7 +19,7 @@ const Activate = () => {
 
     return (
         <div>
-            <CurrComp onClick={nextStep} />
+            <CurrComp onNext={nextStep} />
         </div>
     )
 }

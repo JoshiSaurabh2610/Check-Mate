@@ -30,7 +30,7 @@ function App() {
 };
 
 const GuestRoute = ({ children, ...rest }) => {
-  const {isAuth} = useSelector(state => state.auth)
+  const {isAuth} = useSelector(state =>  state.auth);
   return (
     <Route {...rest}
       render={({ location }) => {
@@ -63,7 +63,7 @@ const SemiProtectedRoute = ({ children, ...rest }) => {
                 state: { from: location }
               }
             } />)
-            : isAuth && user.Activated ? (
+            : isAuth && user.activated ? (
               <Redirect to={
                 {
                   pathname: '/rooms',
@@ -81,7 +81,7 @@ const ProtectedRoute = ({ children, ...rest }) => {
   return (
     <Route {...rest}
       render={({ location }) => {
-        if (isAuth && user.Activated) {
+        if (isAuth && user.activated) {
           return children;
         } else {
           return <Redirect
