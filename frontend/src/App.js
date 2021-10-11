@@ -5,37 +5,37 @@ import './App.css'
 import Authenticate from './Pages/Authenticate';
 import Activate from './Pages/Activate';
 import Rooms from './Pages/Rooms';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useLoadingWithRefresh } from './hooks/useLoadingWithRefresh';
+import Loader from './Components/Loader';
 
 function App() {
   // auto loading custom hook
-  const {loading} = useLoadingWithRefresh();
-
+  const { loading } = useLoadingWithRefresh();
   return (
-    loading ? 'loading......':
-    <BrowserRouter>
-      <Navigation />
-      <Switch>
-        <GuestRoute path="/" exact>
-          <Home />
-        </GuestRoute>
-        <GuestRoute path="/authenticate" exact>
-          <Authenticate />
-        </GuestRoute>
-        <SemiProtectedRoute path="/activate" exact>
-          <Activate />
-        </SemiProtectedRoute>
-        <ProtectedRoute path="/rooms" exact>
-          <Rooms />
-        </ProtectedRoute>
-      </Switch>
-    </BrowserRouter>
+    loading ? <Loader msg="Loading... plz wait" /> :
+      <BrowserRouter>
+        <Navigation />
+        <Switch>
+          <GuestRoute path="/" exact>
+            <Home />
+          </GuestRoute>
+          <GuestRoute path="/authenticate" exact>
+            <Authenticate />
+          </GuestRoute>
+          <SemiProtectedRoute path="/activate" exact>
+            <Activate />
+          </SemiProtectedRoute>
+          <ProtectedRoute path="/rooms" exact>
+            <Rooms />
+          </ProtectedRoute>
+        </Switch>
+      </BrowserRouter>
   );
 };
 
 const GuestRoute = ({ children, ...rest }) => {
-  const {isAuth} = useSelector(state =>  state.auth);
+  const { isAuth } = useSelector(state => state.auth);
   return (
     <Route {...rest}
       render={({ location }) => {
@@ -56,7 +56,7 @@ const GuestRoute = ({ children, ...rest }) => {
 }
 
 const SemiProtectedRoute = ({ children, ...rest }) => {
-  const {isAuth,user} = useSelector(state => state.auth);
+  const { isAuth, user } = useSelector(state => state.auth);
   return (
     <Route {...rest}
       render={({ location }) => {
@@ -82,7 +82,7 @@ const SemiProtectedRoute = ({ children, ...rest }) => {
 }
 
 const ProtectedRoute = ({ children, ...rest }) => {
-  const {isAuth,user} = useSelector(state => state.auth)
+  const { isAuth, user } = useSelector(state => state.auth)
   return (
     <Route {...rest}
       render={({ location }) => {

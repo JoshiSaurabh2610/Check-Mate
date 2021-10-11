@@ -13,6 +13,8 @@ const Otp = () => {
     const dispatch = useDispatch();
 
     async function submitHandler() {
+        if(!OTP || !phoneNo || !hash)
+            return;
         try {
             const { data } = await verifyOtp({ phoneNo, hash, OTP });
             console.log(data);

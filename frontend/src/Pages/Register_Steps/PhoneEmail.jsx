@@ -15,6 +15,8 @@ const PhoneEmail = ({ nextStep }) => {
 
     async function submitHandler() {
         // server request
+        if(!value)
+            return;
         try {
             const { data } = await sendOtp({ phoneNo: value });
             // console.log(data);

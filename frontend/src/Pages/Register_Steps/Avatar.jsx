@@ -5,19 +5,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './Avatar.module.css';
 import { activateUser } from '../../Http';
 import { setAuth, setUserAvatar } from '../../Store/authSlice';
+import Loader from '../../Components/Loader';
 
 const Name = ({ onNext }) => {
     const { user } = useSelector(state => state.auth)
     const [image, setImage] = useState('/images/monkey-avatar.png');
+    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
 
     async function submitHandler() {
+        if (!user.name || user.avatar)
+            return;
+        setLoading(true);
         try {
             const { data } = await activateUser({ userName: user.name, userAvatar: user.avatar });
             console.log(data);
             dispatch(setAuth(data));
         } catch (err) {
             console.log(err);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -31,7 +38,8 @@ const Name = ({ onNext }) => {
             dispatch(setUserAvatar(reader.result));
         }
     }
-
+    if (loading)
+        return <Loader msg="Activation in Progress" />
     return (
         <div className="cardWrapper">
             <Card heading={`hi, ${user.name}`} imoji="logo">
