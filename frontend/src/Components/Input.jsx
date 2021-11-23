@@ -1,9 +1,14 @@
 import React from 'react'
 import styles from './Input.module.css'
-
-const Input = ({...props}) => {
+const Input = ({ label, width, ...props }) => {
+    const widthStyle = width === 'full' ? '100%' : width === 'half' ? '50%' : 'inherit';
     return (
-        <input className={styles.input} {...props} />
+        <div style={{ width: widthStyle }} className={styles.InputWrapper}>
+            <div>
+                <label className={styles.label}>{label}</label><br />
+                <input className={styles.Input} {...props} />
+            </div>
+        </div>
     )
 }
 

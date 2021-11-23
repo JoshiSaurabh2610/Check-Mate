@@ -1,0 +1,64 @@
+.head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+.leftHead{
+    display: flex;
+    align-items: center;
+}
+.leftHead h2{
+    font-size: 20px;
+    font-weight: bold;
+    position: relative;
+}
+.leftHead h2::after{
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0px;
+    height: 4px;
+    width: 60%;
+    background: #07f;
+}
+
+.searchBox{
+    background-color: #262626;
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    padding: 0 10px;
+    min-width: 300px;
+    margin-left: 20px;
+}
+.searchBox input{
+    background: transparent;
+    color: #fff;
+    width: 100%;
+    padding: 10px;
+}
+
+.startRoomBtn{
+    display: flex;
+    align-items: center;
+    background: #20bd5f;
+    border-radius: 20px;
+    padding: 5px 20px;
+    color: #fff;
+}
+.startRoomBtn span{
+    font-size: 16px;
+    margin-left: 10px;
+}
+.startRoomBtn:hover{
+    background: #117c3c;
+}
+
+.roomList{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 60px;
+}
+

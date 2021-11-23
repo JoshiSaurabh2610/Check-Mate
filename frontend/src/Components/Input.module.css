@@ -1,10 +1,28 @@
-.input{
-    border: none;
-    padding: 10px 20px;
-    width: 200px;
-    background-color: #323232;
-    color: #fff;
-    font-size: 2opx;
+.InputWrapper{
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.InputWrapper div{
+    width: 90%;
+}
+
+.Input{
+    width: 90%;
+    margin-left: 5%;
+    padding: 10px;
+    border: 2px solid #ccc;
+    font-size: 16px;
     border-radius: 10px;
-    outline: none;
-} 
+}
+
+.Input:focus{
+    border: 2px solid var(--footer);
+}
+
+.label{
+    font-weight: bold;
+    font-size: 20px;
+}

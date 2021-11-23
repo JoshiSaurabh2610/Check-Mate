@@ -1,45 +1,74 @@
 const jwt = require("jsonwebtoken");
-const refreshTokenModel = require("../models/refreshToken-model");
-const accessSecret = process.env.JWT_ACESS_TOKEN_SECRET;
-const refreshSecret = process.env.JWT_REFRESH_TOKEN_SECRET;
-class TokenService {
-    generateTokens(payload) {
-        const accessToken = jwt.sign(payload, accessSecret, { expiresIn: '1m' });
-        const refreshToken = jwt.sign(payload, refreshSecret, { expiresIn: '1y' });
+const RefreshToken = require("../models/refreshToken-model");
+const accessTokenSecret = process.env.JWT_ACESS_TOKEN_SECRET;
+const refreshTokenSecret = process.env.JWT_REFRESH_TOKEN_SECRET;
+const resetTokenSecret = process.env.JWT_RESET_TOKEN_SECRET;
+class TokenServices {
+    generateTokens = (payload) => {
+        const accessToken = jwt.sign(payload, accessTokenSecret, { expiresIn: '1hr' });
+        const refreshToken = jwt.sign(payload, refreshTokenSecret, { expiresIn: '1y' });
         return { accessToken, refreshToken };
     }
 
-    async storeRefreshToken(refreshToken, userId) {
+    storeRefreshToken = async (refreshToken, userId) => {
         try {
-            await refreshTokenModel.create({
-                refreshToken,
-                userId,
-            })
+            await RefreshToken.create({ refreshToken, userId });
         } catch (err) {
             console.log(err);
         }
     }
 
-    async verifyAccessToken(token) {
-        return jwt.verify(token, accessSecret);
+    updateRefreshToken = async (userId, refreshToken) => {
+        return await RefreshToken.updateOne({ userId: userId }, { refreshToken: refreshToken }, { upsert: true });
     }
 
-    async verifyRefreshToken(token) {
-        return jwt.verify(token, refreshSecret);
+    sendTokens = async (res, user) => {
+
+        //generate new tokens, update DB and attached in cookies
+        const { accessToken, refreshToken } = this.generateTokens({ id: user.id });
+
+        // update refresh token in db 
+        try {
+            await this.updateRefreshToken(user.id, refreshToken);
+        } catch (err) {
+            return res.status(500).json({ msg: 'internal server Error' });
+        }
+
+        // put tokens in cookie
+        res.cookie('refreshToken', refreshToken, {
+            maxAge: 1000 * 60 * 60 * 24 * 30,
+            httpOnly: true
+        });
+
+        res.cookie('accessToken', accessToken, {
+            maxAge: 1000 * 60 * 60 * 24 * 30,
+            httpOnly: true
+        });
+
+        // res send
+        res.status(200).json({ user, auth: true });
     }
 
-    async findRefreshToken(userId, refreshToken) {
-        return refreshTokenModel.findOne({ refreshToken, userId })
+    generateResetToken = (payload) => {
+        return jwt.sign(payload, resetTokenSecret, { expiresIn: '10m' });
     }
 
-    async updateRefreshToken(userId, refreshToken) {
-        return await refreshTokenModel.updateOne({ userId: userId }, { refreshToken: refreshToken });
+    verifyResetToken = (token) => {
+        return jwt.verify(token, resetTokenSecret);
     }
 
-    async removeToken(token){
-        return await refreshTokenModel.deleteOne({token});
+    verifyAccessToken(accessToken) {
+        return jwt.verify(accessToken, accessTokenSecret);
     }
 
-}
+    verifyRefreshToken(refreshToken) {
+        return jwt.verify(refreshToken, refreshTokenSecret);
+    }
 
-module.exports = new TokenService();
+    async removeRefreshToken(refreshToken) {
+        return await RefreshToken.deleteOne({ refreshToken });
+    }
+
+};
+
+module.exports = new TokenServices();

@@ -4,17 +4,16 @@ const HashService = require('./Hash-service');
 
 const smsSid = process.env.SMS_SID;
 const smsAuthToken = process.env.SMS_AUTH_TOKEN;
-const twilio = require('twilio')(smsSid,smsAuthToken,{
-    lazyLoading:true
+const twilio = require('twilio')(smsSid, smsAuthToken, {
+    lazyLoading: true
 });
 
-class OtpService{
-    async generateOtp(){
-        const OTP = crypto.randomInt(1000,9999);
-        return OTP;
+class OtpService {
+    generateOtp() {
+        return crypto.randomInt(1000, 9999);
     }
 
-    async sendBySMS(toPhone,OTP){
+    async sendBySMS(toPhone, OTP) {
         return await twilio.messages.create({
             to: toPhone,
             from: process.env.SMS_FROM_NUmber,
@@ -22,7 +21,7 @@ class OtpService{
         })
     }
 
-    verifyOtp(hashedOtp,data){
+    verifyOtp(hashedOtp, data) {
         let hash = HashService.hashOtp(data);
         return hashedOtp === hash;
     }

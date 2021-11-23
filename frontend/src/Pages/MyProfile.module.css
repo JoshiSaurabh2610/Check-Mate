@@ -1,0 +1,100 @@
+.container{
+    width: 70%;
+    margin: auto;
+    padding: 30px;
+}
+
+.profileSection{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.avatarWrapper{
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: 6px solid #07f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin: 20px 0;
+}
+
+.avatarImg{
+    height: 90%;
+    width: 90%;
+    object-fit: cover;
+}
+
+.btn{
+    margin-top: 5px;
+    padding: 10px 20px;
+    font-size: 20px;
+    color: black;
+    border-radius: 10px;
+    background-color: #ccc;
+    font-weight: 600;
+}
+
+.btn:disabled{
+    cursor: not-allowed;
+}
+
+
+.btnPrimary{
+    color: white;
+    background-color: var(--primary);
+}
+
+.btnPrimary:hover{
+    background-color: #f85200;
+}
+
+.btnSucess{
+    background-color: var(--secondary);
+    color: #fff;
+}
+
+.btnDanger{
+    background-color: var(--danger);
+    color: white;
+}
+
+.btnSecondary{
+    color: #fff;
+    background-color: var(--ternary);
+}
+.btnSecondary:hover{
+    background-color: #354859;
+}
+
+
+/* fields  */
+
+.fieldsWrapper{
+    margin: 20px 0;
+}
+
+.inputWrapper{
+    display: flex;
+    justify-content: space-between;
+}
+
+.fieldInput{
+    color: white;
+    background-color: #1d1d1d;
+    border: 2px solid white;
+    font-weight: 400;
+    line-height: 1.6;
+    font-size: 20px;
+    width: 100%;
+    padding: 5px;
+    margin: 0 10px;
+}
+
+.active{
+    border: 2px solid blue;
+    border-radius: 5px;
+}

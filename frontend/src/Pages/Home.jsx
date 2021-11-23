@@ -16,7 +16,7 @@ const Home = () => {
             <Card heading="Welcome to Coder's House" imoji="logo">
                 <p className={Style.text}>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolorem accusamus obcaecati quia voluptate porro, necessitatibus et rem ipsam voluptates reiciendis molestias officia fugiat eos similique possimus neque sint, distinctio ut!</p>
                 <div>
-                    <Button ton text="Let's Go" onClick={startRegister}/>
+                    <Button onClick={startRegister}>Let's Go</Button>
                 </div>
                 <div className={Style.smallInfo}>
                     <span style={{color:"#07f"}}>Already have an Invite? </span>

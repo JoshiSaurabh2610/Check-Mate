@@ -1,29 +1,49 @@
+/* colors */
+
+:root{
+    --primary:#F9844A;
+    --secondary:#90BE6D;
+    --ternary:#577590;
+    --primaryText: #F94144;
+    --secondaryText: #577590;
+    --danger:#fe4545;
+    --pure:#fff;
+    --light:#F8961E;
+    --heaven:#ffffff;
+    --footer:#4D908E;
+
+}
 /* Basic Css Reset */
 
-html {
-box-sizing: border-box;
-font-size: 16px;
+*{
+    box-sizing: border-box;
 }
 
-
-body, h1, h2, h3, h4, h5, h6, p, ol, ul {
-margin: 0;
-padding: 0;
-font-weight: normal;
--webkit-font-smoothing: antialiase;
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ol,
+ul {
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiase;
 }
 
-ol, ul {
-list-style: none;
+ol,
+ul {
+    list-style: none;
 }
 
 img {
-max-width: 100%;
-height: auto;
+    max-width: 100%;
+    height: auto;
 }
-
-
-
 
 body{
     background-color: #121212;
@@ -31,13 +51,42 @@ body{
     font-family: 'Nunito', sans-serif;
 
 }
-
-.container {
-    width: 1200px;
-    max-width: 90%;
-    margin: 0px auto;
+button {
+    border: none;
+    outline: none;
+    cursor: pointer;
 }
 
+input {
+    border: none;
+    outline: none;
+}
+
+.container{
+    width: 90%;
+    padding:0 15px;
+    margin:0 auto;
+}
+
+.errorMsg{
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    background-color: var(--danger);
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+}
+
+.sucessMsg{
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    background-color: var(--secondary);
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+}
 
 .cardWrapper{
     display: flex;

@@ -10,8 +10,8 @@ module.exports = async function (req, res, next) {
         if (!userData) {
             throw new Error();
         }
-        req.user = userData;
-        // console.log(userData);
+        req.userId = userData.id;
+        console.log(userData,req.userId);
         next();
     } catch (err) {
         console.log(err);

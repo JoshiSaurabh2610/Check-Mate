@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-const api = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
+console.log(process.env.REACT_APP_API_URL);
+console.log(process.env);
+const API = axios.create({
+    baseURL: "http://localhost:5000",
     withCredentials: true,
     headers: {
         'Content-type': 'application/json',
@@ -9,16 +11,22 @@ const api = axios.create({
     },
 });
 
-
-/// list of all the end Points
-export const sendOtp = (data) => api.post('/api/auth/send-otp', data);
-export const verifyOtp = (data) => api.post('/api/auth/verify-otp', data);
-export const activateUser = (data) => api.post('/api/auth/activate', data);
-export const logoutUser = () => api.post('/api/auth/logout');
+// list of all end points
+export const sendOTP = (data) => API.post('/api/auth/sendOTP', data);
+export const register = (data) => API.post('/api/auth/register', data);
+export const loginHandler = (data) => API.post('/api/auth/login', data);
+export const setAvatar = (data) => API.post('/api/auth/setAvatar', data);
+export const refresh = (data) => API.post('/api/auth/refresh', data);
+export const logout = () => API.post('/api/auth/logout');
+export const changePassword = (data) => API.patch('/api/auth/changePassword', data);
+export const changeName = (data) => API.patch('/api/auth/setName', data);
+export const googleLogin = (data) => API.post('/api/auth/googleLogin', data);
+export const resetPassword = (url, data) => API.post(`${url}`, data);
+export const forgotPassword = (data) => API.post('/api/auth/forgotPassword', data);
 
 
 // Interceptor for access token refresh
-api.interceptors.response.use(
+API.interceptors.response.use(
     (config) => {
         return config;
     },
@@ -28,10 +36,11 @@ api.interceptors.response.use(
             originalRequest.isRetry = true;
             try {
                 await axios.get(
-                    `${process.env.REACT_APP_API_URL}/api/auth/refresh`,
+                    // `${process.env.REACT_APP_API_URL}/api/auth/refresh`,
+                    "http://localhost:5000/api/auth/refresh",
                     { withCredentials: true }
                 );
-                return api.request(originalRequest)
+                return API.request(originalRequest)
             } catch (err) {
                 console.log(err);
             }
@@ -40,4 +49,4 @@ api.interceptors.response.use(
     }
 );
 
-export default api;
+export default API;

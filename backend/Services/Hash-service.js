@@ -1,10 +1,10 @@
 const crypto = require('crypto');
-class HashService{
-    hashOtp(data){
+class HashService {
+    hashOTP(data) {
         return crypto
-                .createHmac('sha256',process.env.HASH_KEY)
-                .update(data)
-                .digest('hex');
+            .createHmac('sha256', process.env.HASH_KEY)
+            .update(data)
+            .digest('hex');
     }
 }
 
